@@ -64,14 +64,18 @@ function nightCycle() {
     }
     
     if(playerPoints >= 20) {
-        alert("You killed Dracula, you win!");
+        endGame();
         document.getElementById("maintext").innerHTML = "Game over. You win! <br> Refresh the page to play again"
-        endGame();
+        setTimeout(function(){
+            alert("You killed Dracula, you win!");
+        }, 1);
     } else if(guards <= 0 && proximityMine == false) {
-        updateScores();
-        alert("With no guards to save you, Dracula has bitten you, you lose.");
-        document.getElementById("maintext").innerHTML = "Game over. You lose! <br> Refresh the page to play again"
         endGame();
+        updateScores();
+        document.getElementById("maintext").innerHTML = "Game over. You lose! <br> Refresh the page to play again"
+        setTimeout(function(){
+        alert("With no guards to save you, Dracula has bitten you, you lose.");
+        }, 1);
     } else if(guards <= 0 && proximityMine == true) {
         dracPoints = dracpoints - 10;
             if(dracPoints < 0) {
@@ -107,10 +111,9 @@ function morningUpdate() {
 }
 
 function endGame() {
-    // document.getElementById("helpSelf").style.visibility = "hidden";
-    // document.getElementById("hireGuards").style.visibility = "hidden";
-    // document.getElementById("hirePriest").style.visibility = "hidden";
-    // document.getElementById("nextDay").style.visibility = "hidden";
-    // document.getElementById("hirePriest").style.visibility = "hidden";
-    document.getElementsByClassName("button").style.visibility = "hidden";
+    var shutOff = document.getElementsByClassName("interactive");
+    for(var i=0, len=shutOff.length; i<len; i++)
+    {
+        shutOff[i].style["visibility"] = "hidden";
+    }
 }
