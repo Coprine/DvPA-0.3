@@ -34,10 +34,10 @@ function hireGuards() {
 function exorcism() {
     if(currency >= 60) {
         currency = currency - 60;
-        let priestPoints = Math.ceil(Math.random() * 15);
-        if(priestPoints <= 5) {
+        let priestPoints = Math.ceil(Math.random() * 30);
+        if(priestPoints <= 8) {
             document.getElementById("maintext").innerHTML = "The codger was a fraud! Barely scared off the bats.";
-        } else if(priestPoints >= 6 && priestPoints <= 12) {
+        } else if(priestPoints >= 9 && priestPoints <= 23) {
             document.getElementById("maintext").innerHTML = "The castle is filled with an odd sense of tranquility.";
         } else {
             document.getElementById("maintext").innerHTML = "The pope himself answers your call and sucker punches you, leaving an imprint of the Vatican ring on your forehead.";
@@ -87,7 +87,7 @@ function nightCycle() {
         alert("With no guards to save you, Dracula has bitten you, you lose.");
         }, 1);
     } else if(guards <= 0 && proximityMine == true) {
-        dracPoints = dracpoints - 10;
+        dracPoints = dracpoints - 30;
             if(dracPoints < 0) {
                 dracPoints = 0;
             }
