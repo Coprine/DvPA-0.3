@@ -8,19 +8,21 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body style="background-color:black">
-    <h2 id="daycount" class="scores">Day 0</h2>
-    <h2 id="guardcount" class="scores">Guards: 10</h2>
-    <h2 id="currency" class="scores">Currency: 100</h2>
-    <p id="maintext" class="main">
-        Welcome to Prince Andrew Sim (name pending)! <br>
-        In this game, you are Prince Andrew himself, left alone to your devices in Buckingham Palace or whatever. <br>
-        You have made the horrifying revelation that Dracula resides within and has a taste for your blood. Alas, you would surely seem insane if you told the public. <br>
-        However, you have the power of the royal guard, the nation's best spies, as many Catholics as you can imagine, and taxes on your side. <br><br>
-        Investigate to grow closer to finding dracula, hire guards to fend him off, hire priests to temporarily thwart him, and impose taxes to improve your income. Good luck. 
-    </p>
+    <div id="container">
+        <h2 id="daycount" class="scores">Day 0</h2>
+        <h2 id="guardcount" class="scores">Guards: 10</h2>
+        <h2 id="currency" class="scores">Currency: 100</h2>
+        <p id="maintext" class="main">
+            Welcome to Prince Andrew Sim (name pending)! <br>
+            In this game, you are Prince Andrew himself, left alone to your devices in Buckingham Palace or whatever. <br>
+            You have made the horrifying revelation that Dracula resides within and has a taste for your blood. Alas, you would surely seem insane if you told the public. <br>
+            However, you have the power of the royal guard, the nation's best spies, as many Catholics as you can imagine, and taxes on your side. <br><br>
+            Investigate to grow closer to finding dracula, hire guards to fend him off, hire priests to temporarily thwart him, and impose taxes to improve your income. Good luck. 
+        </p>
+    </div>
     <input id="helpSelf" type="button" value="Investigate (50 currency)" class="interactive" onclick="helpSelf()"> <br>
     <input type="button" value="Hire Guards (25 currency)" id="hireGuards" class="interactive" onclick="hireGuards()"> <br>
-    <input type="button" value="Hire Priest (75 currency)" id="hirePriest" class="interactive" onclick="exorcism()"> <br>
+    <input type="button" value="Hire Priest (60 currency)" id="hirePriest" class="interactive" onclick="exorcism()"> <br>
     <input type="button" value="Levy Taxes On Tea (15 currency)" id="taxes" class="interactive" onclick="taxIncrease()"> <br>
     <input type="button" value="Sleep" id="nextDay" class="interactive" onclick="nightCycle()">
     <script src="script.js"></script>

@@ -32,8 +32,8 @@ function hireGuards() {
 }
 
 function exorcism() {
-    if(currency >= 75) {
-        currency = currency - 75;
+    if(currency >= 60) {
+        currency = currency - 60;
         let priestPoints = Math.ceil(Math.random() * 15);
         if(priestPoints <= 5) {
             document.getElementById("maintext").innerHTML = "The codger was a fraud! Barely scared off the bats.";
@@ -52,8 +52,18 @@ function exorcism() {
     }
 }
 
+function taxIncrease() {
+    if(currency >= 15) {
+        currency = currency - 15;
+        currencyMod += 1;
+        updateScores();
+    } else {
+        alert("Not enough currency");
+    }
+}
+
 function nightCycle() {
-    dracPoints = dracPoints + Math.ceil(Math.random()*4);
+    dracPoints = dracPoints + Math.ceil(Math.random()*6);
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
     currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25; 
@@ -89,15 +99,7 @@ function nightCycle() {
     updateScores();
 }
 
-function taxIncrease() {
-    if(currency >= 15) {
-        currency = currency - 15;
-        currencyMod += 1;
-        updateScores();
-    } else {
-        alert("Not enough currency");
-    }
-}
+
 
 function updateScores() {
     document.getElementById("guardcount").innerHTML = "Guards: " + guards;
