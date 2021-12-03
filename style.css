@@ -1,0 +1,13 @@
+*{
+    background-color: black;
+    color:white;
+}
+.scores {
+    text-align: left;
+}
+
+.main {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
