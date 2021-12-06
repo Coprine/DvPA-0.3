@@ -86,7 +86,7 @@ function nightCycle() {
         guards = 0;
     }
     
-    if(playerPoints >= 0) {
+    if(playerPoints >= 20) {
         endGame();
         document.getElementById("maintext").innerHTML = "Game over. You win! <br> Refresh the page to play again";
         dreadUpdate("Eliminated", "#ccddff");
