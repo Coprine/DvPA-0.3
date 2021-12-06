@@ -29,6 +29,10 @@
     grid-area:main;
 }
 
+#dread {
+    grid-area:dread;
+}
+
 #container {
     display: grid;
     grid-template-columns: auto;
@@ -36,6 +40,7 @@
     grid-template-areas: 
     "days main"
     "guards main"
-    "money main";
+    "money main"
+    "dread main";
     grid-gap:0;
 }

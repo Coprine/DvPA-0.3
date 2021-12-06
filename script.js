@@ -6,6 +6,7 @@ var currencyGained = 0;
 var currencyMod = 25;
 var days = 0;
 var guardsDead = 0;
+var dread = 1;
 var proximityMine = false;
 
 
@@ -43,8 +44,12 @@ function exorcism() {
             document.getElementById("maintext").innerHTML = "The pope himself answers your call and sucker punches you, leaving an imprint of the Vatican ring on your forehead.";
         }
         dracPoints = dracPoints - priestPoints;
+        dread = dread - Math.floor(priestPoints / 10);
         if(dracPoints < 0) {
             dracPoints = 0;
+        }
+        if(dread < 0) {
+            dread = 0;
         }
         updateScores();
     } else {
@@ -63,7 +68,11 @@ function taxIncrease() {
 }
 
 function nightCycle() {
-    dracPoints = dracPoints + Math.ceil(Math.random()*6);
+    var dreadInc = Math.ceil(Math.random()*dread);
+    if (dreadInc == dread) {
+        dread++;
+    }
+    dracPoints = dracPoints + Math.ceil(Math.random()*(3*dread));
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
     currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25; 
@@ -105,6 +114,25 @@ function updateScores() {
     document.getElementById("guardcount").innerHTML = "Guards: " + guards;
     document.getElementById("daycount").innerHTML = "Day " + days;
     document.getElementById("currency").innerHTML = "Currency: " + currency;
+    switch(dread) {
+        case 0:
+            document.getElementById("dread").innerHTML = "Dread: Peaceful";
+        break;
+        case 1:
+            document.getElementById("dread").innerHTML = "Dread: Creeping";
+        break;
+        case 2:
+            document.getElementById("dread").innerHTML = "Dread: Eerie";
+        break;
+        case 3:
+            document.getElementById("dread").innerHTML = "Dread: Horrfying";
+        break;
+        case 4:
+            document.getElementById("dread").innerHTML = "Dread: All-Encompassing";
+        break;
+        case 5:
+            document.getElementById("dread").innerHTML = "Dread: Apocalyptic";
+    }
 }
 
 function morningUpdate() {
