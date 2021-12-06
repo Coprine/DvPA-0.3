@@ -8,6 +8,7 @@ var days = 0;
 var guardsDead = 0;
 var dread = 1;
 var proximityMine = false;
+var gameEnd = false;
 
 
 function helpSelf() {
@@ -44,7 +45,7 @@ function exorcism() {
             document.getElementById("maintext").innerHTML = "The pope himself answers your call and sucker punches you, leaving an imprint of the Vatican ring on your forehead.";
         }
         dracPoints = dracPoints - priestPoints;
-        dread = dread - Math.floor(priestPoints / 10);
+        dread = dread - Math.ceil(priestPoints / 10);
         if(dracPoints < 0) {
             dracPoints = 0;
         }
@@ -72,6 +73,9 @@ function nightCycle() {
     if (dreadInc == dread) {
         dread++;
     }
+    if(dread >= 7) {
+        dread == 6;
+    }
     dracPoints = dracPoints + Math.ceil(Math.random()*(3*dread));
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
@@ -82,16 +86,17 @@ function nightCycle() {
         guards = 0;
     }
     
-    if(playerPoints >= 20) {
+    if(playerPoints >= 0) {
         endGame();
-        document.getElementById("maintext").innerHTML = "Game over. You win! <br> Refresh the page to play again"
+        document.getElementById("maintext").innerHTML = "Game over. You win! <br> Refresh the page to play again";
+        dreadUpdate("Eliminated", "#ccddff");
         setTimeout(function(){
             alert("You killed Dracula, you win!");
         }, 1);
     } else if(guards <= 0 && proximityMine == false) {
         endGame();
-        updateScores();
-        document.getElementById("maintext").innerHTML = "Game over. You lose! <br> Refresh the page to play again"
+        document.getElementById("maintext").innerHTML = "Game over. You lose! <br> Refresh the page to play again";
+        dreadUpdate("Unimaginable", "#882222");
         setTimeout(function(){
         alert("With no guards to save you, Dracula has bitten you, you lose.");
         }, 1);
@@ -114,25 +119,35 @@ function updateScores() {
     document.getElementById("guardcount").innerHTML = "Guards: " + guards;
     document.getElementById("daycount").innerHTML = "Day " + days;
     document.getElementById("currency").innerHTML = "Currency: " + currency;
-    switch(dread) {
-        case 0:
-            document.getElementById("dread").innerHTML = "Dread: Peaceful";
-        break;
-        case 1:
-            document.getElementById("dread").innerHTML = "Dread: Creeping";
-        break;
-        case 2:
-            document.getElementById("dread").innerHTML = "Dread: Eerie";
-        break;
-        case 3:
-            document.getElementById("dread").innerHTML = "Dread: Horrfying";
-        break;
-        case 4:
-            document.getElementById("dread").innerHTML = "Dread: All-Encompassing";
-        break;
-        case 5:
-            document.getElementById("dread").innerHTML = "Dread: Apocalyptic";
+    if (gameEnd == false){
+        switch(dread) {
+            case 0:
+                dreadUpdate("Peaceful", "#ddddff");
+            break;
+            case 1:
+                dreadUpdate("Creeping", "#ffffff");
+            break;
+            case 2:
+                dreadUpdate("Eerie", "#ffdddd");
+            break;
+            case 3:
+                dreadUpdate("Horrifying", "#aa7777");
+            break;
+            case 4:
+                dreadUpdate("All-Encompassing", "#dd5555");
+            break;
+            case 5:
+                dreadUpdate("Apocalyptic", "#ff3333");
+        }
     }
+}
+
+function dreadUpdate(dreadName, dreadColor) {
+    var changeColor = document.getElementsByClassName("text");
+    for(var i=0, len=changeColor.length; i<len; i++) {
+    changeColor[i].style["color"] = dreadColor;
+    }
+    document.getElementById("dread").innerHTML = "Dread: " + dreadName;
 }
 
 function morningUpdate() {
@@ -141,6 +156,7 @@ function morningUpdate() {
 }
 
 function endGame() {
+    gameEnd = true;
     var shutOff = document.getElementsByClassName("interactive");
     for(var i=0, len=shutOff.length; i<len; i++)
     {
