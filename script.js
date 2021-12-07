@@ -1,3 +1,4 @@
+var difficulty;
 var playerPoints = 0
 var dracPoints = 1
 var guards = 10;
@@ -7,8 +8,24 @@ var currencyMod = 25;
 var days = 0;
 var guardsDead = 0;
 var dread = 1;
+var susScore = 0;
 var proximityMine = false;
 var gameEnd = false;
+
+function setDifficulty(diffMod) {
+    difficulty = diffMod;
+    var startUp = document.getElementsByClassName("interactive");
+    for(var i=0, len=startUp.length; i<len; i++)
+    {
+        startUp[i].style["visibility"] = "visible";
+    }
+
+    var startUp2 = document.getElementsByClassName("diffSet");
+    for(var i=0, len=startUp2.length; i<len; i++)
+    {
+        startUp2[i].style["visibility"] = "hidden";
+    }
+}
 
 
 function helpSelf() {
@@ -66,9 +83,17 @@ function taxIncrease() {
     } else {
         alert("Not enough currency");
     }
+    susScore++
+    if(susScore >= 8){
+        alert('Literally 1984')
+        for(var i=0; i<Infinity; i++) {
+            console.log(i);
+        }
+    }
 }
 
 function nightCycle() {
+    susScore = 0;
     var dreadInc = Math.ceil(Math.random()*dread);
     if (dreadInc == dread) {
         dread++;
@@ -76,7 +101,7 @@ function nightCycle() {
     if(dread >= 7) {
         dread == 6;
     }
-    dracPoints = dracPoints + Math.ceil(Math.random()*(3*dread));
+    dracPoints = dracPoints + Math.ceil(Math.random()*(difficulty*dread));
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
     currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25; 
@@ -88,20 +113,23 @@ function nightCycle() {
     
     if(playerPoints >= 20) {
         endGame();
-        document.getElementById("maintext").innerHTML = "Game over. You win! <br> Refresh the page to play again";
+        document.getElementById("maintext").innerHTML = "Game over. You win! <br>";
+        document.getElementById("restartButton").style.visibility = "visible";
         dreadUpdate("Eliminated", "#ccddff");
         setTimeout(function(){
             alert("You killed Dracula, you win!");
         }, 1);
     } else if(guards <= 0 && proximityMine == false) {
         endGame();
-        document.getElementById("maintext").innerHTML = "Game over. You lose! <br> Refresh the page to play again";
+        document.getElementById("maintext").innerHTML = "Game over. You lose! <br>";
+        document.getElementById("restartButton").style.visibility = "visible";
         dreadUpdate("Unimaginable", "#882222");
         setTimeout(function(){
         alert("With no guards to save you, Dracula has bitten you, you lose.");
         }, 1);
     } else if(guards <= 0 && proximityMine == true) {
         dracPoints = dracpoints - 30;
+        dread = 0;
             if(dracPoints < 0) {
                 dracPoints = 0;
             }
@@ -161,5 +189,36 @@ function endGame() {
     for(var i=0, len=shutOff.length; i<len; i++)
     {
         shutOff[i].style["visibility"] = "hidden";
+    }
+}
+
+function restart() {
+    difficulty;
+    playerPoints = 0
+    dracPoints = 1
+    guards = 10;
+    currency = 100;
+    currencyGained = 0;
+    currencyMod = 25;
+    days = 0;
+    guardsDead = 0;
+    dread = 1;
+    proximityMine = false;
+    gameEnd = false;
+
+    updateScores();
+
+    document.getElementById("restartButton").style.visibility = "hidden";
+
+    var startUp3 = document.getElementsByClassName("interactive");
+    for(var i=0, len=startUp3.length; i<len; i++)
+    {
+        startUp3[i].style["visibility"] = "hidden";
+    }
+
+    var startUp4 = document.getElementsByClassName("diffSet");
+    for(var i=0, len=startUp4.length; i<len; i++)
+    {
+        startUp4[i].style["visibility"] = "visible";
     }
 }

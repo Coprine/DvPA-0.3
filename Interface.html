@@ -20,12 +20,22 @@
             However, you have the power of the royal guard, the nation's best spies, as many Catholics as you can imagine, and taxes on your side. <br><br>
             Investigate to grow closer to finding dracula, hire guards to fend him off, hire priests to temporarily thwart him, and impose taxes to improve your income. Good luck. 
         </p>
+        <input type="button" class="text" onclick="restart()" value="Click Here To Restart" id="restartButton">
     </div>
     <input id="helpSelf" type="button" value="Investigate (50 currency)" class="interactive text" onclick="helpSelf()"> <br> <br>
     <input type="button" value="Hire Guards (25 currency)" id="hireGuards" class="interactive text" onclick="hireGuards()"> <br> <br>
     <input type="button" value="Hire Priest (60 currency)" id="hirePriest" class="interactive text" onclick="exorcism()"> <br> <br>
     <input type="button" value="Levy Taxes On Tea (15 currency)" id="taxes" class="interactive text" onclick="taxIncrease()"> <br> <br>
     <input type="button" value="Sleep" id="nextDay" class="interactive text" onclick="nightCycle()">
+
+    <div class="diffItems">
+        <h2 class="diffSet" id="diffText">Select Your Difficulty:</h2> <br>
+        <input type="button" class="diffSet" onclick="setDifficulty(1)" value="Wimp" id="wimp">
+        <input type="button" class="diffSet" onclick="setDifficulty(2)" value="Fair" id="fair">
+        <input type="button" class="diffSet" onclick="setDifficulty(3)" value="Hard" id="hard">
+        <input type="button" class="diffSet" onclick="setDifficulty(4)" value="Impossible" id="impossible">
+        
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

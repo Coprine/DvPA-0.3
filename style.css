@@ -25,12 +25,30 @@
     grid-area:money;
 }
 
+.interactive {
+    visibility: hidden;
+}
+
 #maintext {
     grid-area:main;
 }
 
+#restartButton {
+    visibility: hidden;
+    grid-area:restart;
+    width:min-content;
+    height:min-content;
+    font-size:0.8em;
+}
+
 #dread {
     grid-area:dread;
+}
+
+.diffItems {
+    width:15%;
+    margin-left: 49%;
+    margin-right: 51%;
 }
 
 #container {
@@ -41,6 +59,6 @@
     "days main"
     "guards main"
     "money main"
-    "dread main";
+    "dread restart";
     grid-gap:0;
 }
