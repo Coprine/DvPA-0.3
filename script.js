@@ -159,7 +159,7 @@ function nightCycle() {
         document.getElementById("restartButton").style.visibility = "visible";
         dreadUpdate("Eliminated", "#ccddff");
         prestiged = true;
-        prestige += math.ceil(difficulty/2);
+        prestige = prestige + (Math.ceil(difficulty/2));
         setTimeout(function(){
             alert("You killed Dracula, you win!");
         }, 2);
