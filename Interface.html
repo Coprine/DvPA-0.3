@@ -12,6 +12,7 @@
         <h2 id="daycount" class="scores text">Day 0</h2>
         <h2 id="guardcount" class="scores text">Guards: 10</h2>
         <h2 id="currency" class="scores text">Currency: 100</h2>
+        <h2 id="prestigePoints" class="scores text prestige">Prestige: 0</h2> <br>
         <h2 id="dread" class="scores text">Dread: Creeping</h2>
         <p id="maintext" class="main text">
             Welcome to Prince Andrew Sim (name pending)! <br>
@@ -20,20 +21,23 @@
             However, you have the power of the royal guard, the nation's best spies, as many Catholics as you can imagine, and taxes on your side. <br><br>
             Investigate to grow closer to finding dracula, hire guards to fend him off, hire priests to temporarily thwart him, and impose taxes to improve your income. Good luck. 
         </p>
-        <input type="button" class="text" onclick="restart()" value="Click Here To Restart" id="restartButton">
+        
     </div>
     <input id="helpSelf" type="button" value="Investigate (50 currency)" class="interactive text" onclick="helpSelf()"> <br> <br>
     <input type="button" value="Hire Guards (25 currency)" id="hireGuards" class="interactive text" onclick="hireGuards()"> <br> <br>
     <input type="button" value="Hire Priest (60 currency)" id="hirePriest" class="interactive text" onclick="exorcism()"> <br> <br>
     <input type="button" value="Levy Taxes On Tea (15 currency)" id="taxes" class="interactive text" onclick="taxIncrease()"> <br> <br>
-    <input type="button" value="Sleep" id="nextDay" class="interactive text" onclick="nightCycle()">
+    <input type="button" value="Arm Proximity Mine (2 Prestige)" id="mineButton" class="interactive text prestige" onclick="setMine()"> <br> <br>
+    <input type="button" value="Rob Treasury (1 Prestige)" id="treasuryRob" class="interactive text prestige" onclick="stealTaxes()"> <br> <br>
+    <input type="button" value="Sleep" id="nextDay" class="interactive text" onclick="nightCycle()"> <br> <br>
+    <input type="button" class="text" onclick="restart()" value="Click Here To Restart" id="restartButton">
 
     <div class="diffItems">
         <h2 class="diffSet" id="diffText">Select Your Difficulty:</h2> <br>
         <input type="button" class="diffSet" onclick="setDifficulty(1)" value="Wimp" id="wimp">
-        <input type="button" class="diffSet" onclick="setDifficulty(2)" value="Fair" id="fair">
-        <input type="button" class="diffSet" onclick="setDifficulty(3)" value="Hard" id="hard">
-        <input type="button" class="diffSet" onclick="setDifficulty(4)" value="Impossible" id="impossible">
+        <input type="button" class="diffSet" onclick="setDifficulty(3)" value="Fair" id="fair">
+        <input type="button" class="diffSet" onclick="setDifficulty(5)" value="Hard" id="hard">
+        <input type="button" class="diffSet" onclick="setDifficulty(7)" value="Impossible" id="impossible">
         
     </div>
     <script src="script.js"></script>

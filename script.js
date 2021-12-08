@@ -1,17 +1,22 @@
+//declares global variables
 var difficulty;
 var playerPoints = 0
 var dracPoints = 1
 var guards = 10;
 var currency = 100;
+var prestige = 0;
 var currencyGained = 0;
 var currencyMod = 25;
 var days = 0;
 var guardsDead = 0;
 var dread = 1;
 var susScore = 0;
+var prestiged = false;
 var proximityMine = false;
 var gameEnd = false;
 
+
+//Sets difficulty on user input
 function setDifficulty(diffMod) {
     difficulty = diffMod;
     var startUp = document.getElementsByClassName("interactive");
@@ -25,9 +30,11 @@ function setDifficulty(diffMod) {
     {
         startUp2[i].style["visibility"] = "hidden";
     }
+    prestigeCheck();
 }
 
 
+//Raises player points
 function helpSelf() {
     if(currency >= 50) {
         currency = currency - 50;
@@ -38,6 +45,7 @@ function helpSelf() {
     }
 }
 
+//Raises guard score
 function hireGuards() {
     if(currency >= 25) {
         currency = currency - 25;
@@ -50,6 +58,8 @@ function hireGuards() {
     }
 }
 
+
+//Decreases dread and dracPoints
 function exorcism() {
     if(currency >= 60) {
         currency = currency - 60;
@@ -75,6 +85,8 @@ function exorcism() {
     }
 }
 
+
+//Increases currency earned
 function taxIncrease() {
     if(currency >= 15) {
         currency = currency - 15;
@@ -92,8 +104,35 @@ function taxIncrease() {
     }
 }
 
+//Buys proximity mine
+function setMine() {
+    if (prestige >= 2) {
+        prestige -= 2;
+        proximityMine = true;
+        document.getElementById("mineButton").value = "Proximity Mine Armed!";
+        document.getElementById("mineButton").onclick = '';
+        updateScores();
+    } else {
+        alert("Not enough prestige");
+    }
+}
+
+//Converts prestige to currency
+function stealTaxes() {
+    if(prestige >= 1) {
+        prestige--;
+        currency = currency + 125;
+        updateScores();
+    } else {
+        alert('Not enough prestige! Gain more by winning games.')
+    }
+}
+
+//All dracula-related processes, as well as winning, losing, and updating scores
 function nightCycle() {
+    //Resets Easter Egg
     susScore = 0;
+    //Updates dread
     var dreadInc = Math.ceil(Math.random()*dread);
     if (dreadInc == dread) {
         dread++;
@@ -101,6 +140,7 @@ function nightCycle() {
     if(dread >= 7) {
         dread == 6;
     }
+    //Dracula and guard score update
     dracPoints = dracPoints + Math.ceil(Math.random()*(difficulty*dread));
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
@@ -110,43 +150,56 @@ function nightCycle() {
     if(guards < 0) {
         guards = 0;
     }
-    
+    //Updates other scores
+    updateScores();
+    //Checks for win / loss / Dracula blew up
     if(playerPoints >= 20) {
         endGame();
         document.getElementById("maintext").innerHTML = "Game over. You win! <br>";
         document.getElementById("restartButton").style.visibility = "visible";
         dreadUpdate("Eliminated", "#ccddff");
+        prestiged = true;
+        prestige += math.ceil(difficulty/2);
         setTimeout(function(){
             alert("You killed Dracula, you win!");
-        }, 1);
+        }, 2);
+    } else if(guards <= 0 && proximityMine == true) {
+        document.getElementById("mineButton").onclick = setMine;
+        document.getElementById("mineButton").value = "Arm Proximity Mine (2 Prestige)";
+        alert('The bugger ran into your proximity mine and blew his leg off!');
+        dracPoints -= 30;
+        dread = 0;
+            if(dracPoints < 0) {
+                dracPoints = 0;
+            }
+        proximityMine = false;
+        updateScores();
+        morningUpdate();
     } else if(guards <= 0 && proximityMine == false) {
         endGame();
         document.getElementById("maintext").innerHTML = "Game over. You lose! <br>";
         document.getElementById("restartButton").style.visibility = "visible";
         dreadUpdate("Unimaginable", "#882222");
+        prestige -= difficulty;
+        if(prestige < 0) {
+            prestige = 0;
+        }
         setTimeout(function(){
         alert("With no guards to save you, Dracula has bitten you, you lose.");
-        }, 1);
-    } else if(guards <= 0 && proximityMine == true) {
-        dracPoints = dracpoints - 30;
-        dread = 0;
-            if(dracPoints < 0) {
-                dracPoints = 0;
-            }
-        alert('The bugger ran into your proximity mine and blew his leg off!');
+        }, 2);
         morningUpdate();
     } else {
         morningUpdate();
     }
-    updateScores();
 }
 
 
-
+//Updates scores 
 function updateScores() {
     document.getElementById("guardcount").innerHTML = "Guards: " + guards;
     document.getElementById("daycount").innerHTML = "Day " + days;
     document.getElementById("currency").innerHTML = "Currency: " + currency;
+    document.getElementById("prestigePoints").innerHTML = "Prestige: " + prestige;
     if (gameEnd == false){
         switch(dread) {
             case 0:
@@ -168,8 +221,10 @@ function updateScores() {
                 dreadUpdate("Apocalyptic", "#ff3333");
         }
     }
+    prestigeCheck();
 }
 
+//Updates text color and dread
 function dreadUpdate(dreadName, dreadColor) {
     var changeColor = document.getElementsByClassName("text");
     for(var i=0, len=changeColor.length; i<len; i++) {
@@ -178,11 +233,32 @@ function dreadUpdate(dreadName, dreadColor) {
     document.getElementById("dread").innerHTML = "Dread: " + dreadName;
 }
 
+
+//Updates MainText each morning
 function morningUpdate() {
     let updateText = `You lost ${guardsDead} guards to dracula and gained €${currencyGained} in tax dollars`;
     document.getElementById("maintext").innerHTML = updateText;
 }
 
+
+//Hides prestige-related items when no games have been won
+function prestigeCheck() {
+    if(prestiged == false) {
+    var presHide = document.getElementsByClassName("prestige");
+    for(var i=0, len=presHide.length; i<len; i++)
+        {
+            presHide[i].style["visibility"] = "hidden";
+        }
+    } else {
+    var presShow = document.getElementsByClassName("prestige");
+    for(var i=0, len=presShow.length; i<len; i++)
+        {
+        presShow[i].style["visibility"] = "visible";
+        }
+    }
+}
+
+//Hides elements after game ends
 function endGame() {
     gameEnd = true;
     var shutOff = document.getElementsByClassName("interactive");
@@ -192,6 +268,7 @@ function endGame() {
     }
 }
 
+//Resets scores
 function restart() {
     difficulty;
     playerPoints = 0

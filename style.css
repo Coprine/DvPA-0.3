@@ -1,6 +1,7 @@
 *{
     background-color: black;
     color:white;
+    user-select: none;
 }
 .scores {
     text-align: left;
@@ -35,10 +36,7 @@
 
 #restartButton {
     visibility: hidden;
-    grid-area:restart;
-    width:min-content;
-    height:min-content;
-    font-size:0.8em;
+    font-size:2em;
 }
 
 #dread {
@@ -51,14 +49,18 @@
     margin-right: 51%;
 }
 
+.prestige {
+    visibility: hidden;
+}
+
 #container {
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    grid-template-columns: repeat(1fr);
+    grid-template-rows: repeat(1fr);
     grid-template-areas: 
     "days main"
     "guards main"
     "money main"
-    "dread restart";
+    "dread main";
     grid-gap:0;
 }
