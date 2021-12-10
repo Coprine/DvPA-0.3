@@ -141,13 +141,10 @@ function nightCycle() {
     dracPoints = dracPoints + Math.ceil(Math.random()*(difficulty*dread));
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
-    currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25 - Math.floor((guards / 3) * 5); 
+    currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25 - Math.floor((guards / 5) * 5); 
     currency = currency + currencyGained;
     if (currency < 0) {
-        guards = guards + Math.ceil(currency/5);
-        if(guards < 0) {
-            guards = 0;
-        }
+        currency = 0;
     }
     days = days + 1
     if(guards < 0) {
@@ -241,7 +238,7 @@ function morningUpdate() {
     if(currencyGained > 0) {
         var updateText = `You lost ${guardsDead} guards to Dracula and gained €${currencyGained} in tax dollars.`;
     } else {
-        var updateText = `You lost ${guardsDead} guards to Dracula and lost €${currencyGained} to guard wages.`;
+        var updateText = `You lost ${guardsDead} guards to Dracula and lost €${currencyGained * -1} to guard wages.`;
     }
     document.getElementById("maintext").innerHTML = updateText;
 }
@@ -250,7 +247,7 @@ function morningUpdate() {
 //Hides prestige-related items when no games have been won
 function prestigeCheck() {
     if(prestiged == false) {
-    changeClass("prestige", "collapse");
+    changeClass("prestige", "hidden");
     } else {
     changeClass("prestige", "visible");
     }
