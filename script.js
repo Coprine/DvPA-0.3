@@ -19,17 +19,8 @@ var gameEnd = false;
 //Sets difficulty on user input
 function setDifficulty(diffMod) {
     difficulty = diffMod;
-    var startUp = document.getElementsByClassName("interactive");
-    for(var i=0, len=startUp.length; i<len; i++)
-    {
-        startUp[i].style["visibility"] = "visible";
-    }
-
-    var startUp2 = document.getElementsByClassName("diffSet");
-    for(var i=0, len=startUp2.length; i<len; i++)
-    {
-        startUp2[i].style["visibility"] = "hidden";
-    }
+    changeClass("interactive", "visible");
+    changeClass("diffSet", "hidden");
     prestigeCheck();
 }
 
@@ -49,7 +40,13 @@ function helpSelf() {
 function hireGuards() {
     if(currency >= 25) {
         currency = currency - 25;
-        let hiredGuards = Math.ceil(Math.random() * 5);
+        let hiredGuards = Math.ceil(Math.random() * (6 - dread / 2));
+        if(dread >= 3) {
+            hiredGuards = hiredGuards -1;
+            if (hiredGuards < 0) {
+                hiredGuards = 0;
+            }
+        }
         guards = guards + hiredGuards;
         updateScores();
         document.getElementById("maintext").innerHTML = "You were able to hire " + hiredGuards + " new guards." 
@@ -90,13 +87,13 @@ function exorcism() {
 function taxIncrease() {
     if(currency >= 15) {
         currency = currency - 15;
-        currencyMod += 1;
+        currencyMod += Math.ceil((Math.random() * 3) / 2);
         updateScores();
     } else {
         alert("Not enough currency");
     }
     susScore++
-    if(susScore >= 8){
+    if(susScore >= 15){
         alert('Literally 1984')
         for(var i=0; i<Infinity; i++) {
             console.log(i);
@@ -124,7 +121,7 @@ function stealTaxes() {
         currency = currency + 125;
         updateScores();
     } else {
-        alert('Not enough prestige! Gain more by winning games.')
+        alert('Not enough prestige')
     }
 }
 
@@ -144,8 +141,14 @@ function nightCycle() {
     dracPoints = dracPoints + Math.ceil(Math.random()*(difficulty*dread));
     guardsDead = Math.ceil(dracPoints / 4) * (Math.ceil(Math.random() * 3));
     guards = guards - guardsDead
-    currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25; 
+    currencyGained = Math.ceil(Math.random() * currencyMod) * 5 + 25 - Math.floor((guards / 3) * 5); 
     currency = currency + currencyGained;
+    if (currency < 0) {
+        guards = guards + Math.ceil(currency/5);
+        if(guards < 0) {
+            guards = 0;
+        }
+    }
     days = days + 1
     if(guards < 0) {
         guards = 0;
@@ -162,7 +165,7 @@ function nightCycle() {
         prestige = prestige + (Math.ceil(difficulty/2));
         setTimeout(function(){
             alert("You killed Dracula, you win!");
-        }, 2);
+        }, 4);
     } else if(guards <= 0 && proximityMine == true) {
         document.getElementById("mineButton").onclick = setMine;
         document.getElementById("mineButton").value = "Arm Proximity Mine (2 Prestige)";
@@ -186,8 +189,7 @@ function nightCycle() {
         }
         setTimeout(function(){
         alert("With no guards to save you, Dracula has bitten you, you lose.");
-        }, 2);
-        morningUpdate();
+        }, 4);
     } else {
         morningUpdate();
     }
@@ -236,7 +238,11 @@ function dreadUpdate(dreadName, dreadColor) {
 
 //Updates MainText each morning
 function morningUpdate() {
-    let updateText = `You lost ${guardsDead} guards to dracula and gained €${currencyGained} in tax dollars`;
+    if(currencyGained > 0) {
+        var updateText = `You lost ${guardsDead} guards to Dracula and gained €${currencyGained} in tax dollars.`;
+    } else {
+        var updateText = `You lost ${guardsDead} guards to Dracula and lost €${currencyGained} to guard wages.`;
+    }
     document.getElementById("maintext").innerHTML = updateText;
 }
 
@@ -244,28 +250,16 @@ function morningUpdate() {
 //Hides prestige-related items when no games have been won
 function prestigeCheck() {
     if(prestiged == false) {
-    var presHide = document.getElementsByClassName("prestige");
-    for(var i=0, len=presHide.length; i<len; i++)
-        {
-            presHide[i].style["visibility"] = "hidden";
-        }
+    changeClass("prestige", "collapse");
     } else {
-    var presShow = document.getElementsByClassName("prestige");
-    for(var i=0, len=presShow.length; i<len; i++)
-        {
-        presShow[i].style["visibility"] = "visible";
-        }
+    changeClass("prestige", "visible");
     }
 }
 
 //Hides elements after game ends
 function endGame() {
     gameEnd = true;
-    var shutOff = document.getElementsByClassName("interactive");
-    for(var i=0, len=shutOff.length; i<len; i++)
-    {
-        shutOff[i].style["visibility"] = "hidden";
-    }
+    changeClass("interactive", "collapse");
 }
 
 //Resets scores
@@ -285,17 +279,16 @@ function restart() {
 
     updateScores();
 
-    document.getElementById("restartButton").style.visibility = "hidden";
+    document.getElementById("restartButton").style.visibility = "collapse";
 
-    var startUp3 = document.getElementsByClassName("interactive");
-    for(var i=0, len=startUp3.length; i<len; i++)
-    {
-        startUp3[i].style["visibility"] = "hidden";
-    }
+    changeClass("interactive", "collapse");
+    changeClass("diffSet", "visible");
+}
 
-    var startUp4 = document.getElementsByClassName("diffSet");
-    for(var i=0, len=startUp4.length; i<len; i++)
+function changeClass(vClass, visibility) {
+    var classChange = document.getElementsByClassName(vClass);
+    for(var i=0, len=classChange.length; i<len; i++)
     {
-        startUp4[i].style["visibility"] = "visible";
+        classChange[i].style["visibility"] = visibility;
     }
 }
