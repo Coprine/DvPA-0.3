@@ -32,7 +32,7 @@ function helpSelf() {
         playerPoints = playerPoints + Math.ceil(Math.random()*3);
         updateScores();
     } else {
-        alert("Not enough currency");
+        showModal("Not enough currency");
     }
 }
 
@@ -51,7 +51,7 @@ function hireGuards() {
         updateScores();
         document.getElementById("maintext").innerHTML = "You were able to hire " + hiredGuards + " new guards." 
     } else {
-        alert("Not enough currency");
+        showModal("Not enough currency");
     }
 }
 
@@ -78,7 +78,7 @@ function exorcism() {
         }
         updateScores();
     } else {
-        alert("Not enough currency");
+        showModal("Not enough currency");
     }
 }
 
@@ -90,14 +90,15 @@ function taxIncrease() {
         currencyMod += Math.ceil((Math.random() * 3) / 2);
         updateScores();
     } else {
-        alert("Not enough currency");
+        showModal("Not enough currency");
     }
     susScore++
     if(susScore >= 15){
-        alert('Literally 1984')
+        showModal('Literally 1984');
+        setTimeout(function(){
         for(var i=0; i<Infinity; i++) {
-            console.log(i);
-        }
+            console.log(i)};
+        }, 4);
     }
 }
 
@@ -110,7 +111,7 @@ function setMine() {
         document.getElementById("mineButton").onclick = '';
         updateScores();
     } else {
-        alert("Not enough prestige");
+        showModal("Not enough prestige");
     }
 }
 
@@ -121,7 +122,7 @@ function stealTaxes() {
         currency = currency + 125;
         updateScores();
     } else {
-        alert('Not enough prestige')
+        showModal("Not enough prestige");
     }
 }
 
@@ -160,13 +161,11 @@ function nightCycle() {
         dreadUpdate("Eliminated", "#ccddff");
         prestiged = true;
         prestige = prestige + (Math.ceil(difficulty/2));
-        setTimeout(function(){
-            alert("You killed Dracula, you win!");
-        }, 4);
+        showModal("You killed Dracula, you win!");
     } else if(guards <= 0 && proximityMine == true) {
         document.getElementById("mineButton").onclick = setMine;
         document.getElementById("mineButton").value = "Arm Proximity Mine (2 Prestige)";
-        alert('The bugger ran into your proximity mine and blew his leg off!');
+        showModal('The bugger ran into your proximity mine and blew his leg off!');
         dracPoints -= 30;
         dread = 0;
             if(dracPoints < 0) {
@@ -184,9 +183,7 @@ function nightCycle() {
         if(prestige < 0) {
             prestige = 0;
         }
-        setTimeout(function(){
-        alert("With no guards to save you, Dracula has bitten you, you lose.");
-        }, 4);
+        showModal("With no guards to save you, Dracula has bitten you. You lose!");
     } else {
         morningUpdate();
     }
@@ -261,6 +258,7 @@ function endGame() {
 
 //Resets scores
 function restart() {
+    //Resets variables
     difficulty;
     playerPoints = 0
     dracPoints = 1
@@ -274,14 +272,21 @@ function restart() {
     proximityMine = false;
     gameEnd = false;
 
+    //Changes display to reflect new scores
     updateScores();
+
+    //Un-arms mine if it is armed upon game end
+    document.getElementById("mineButton").onclick = setMine;
+        document.getElementById("mineButton").value = "Arm Proximity Mine (2 Prestige)";
 
     document.getElementById("restartButton").style.visibility = "collapse";
 
+    //Hides gameplay buttons, un-hides difficulty buttons
     changeClass("interactive", "collapse");
     changeClass("diffSet", "visible");
 }
 
+//Hides and reveals elements by class
 function changeClass(vClass, visibility) {
     var classChange = document.getElementsByClassName(vClass);
     for(var i=0, len=classChange.length; i<len; i++)
@@ -289,3 +294,29 @@ function changeClass(vClass, visibility) {
         classChange[i].style["visibility"] = visibility;
     }
 }
+
+//Start W3S Code
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+//Function to show Modal with given text
+function showModal(modalText) {
+    modal.style.display = "block";
+    document.getElementById("modText").innerHTML = modalText;
+}
+//End W3S Code
